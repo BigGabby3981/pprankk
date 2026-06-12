@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Girlfriend? ❤️</title>
+
+<style>
+/* ===========================
+   General Page Styling
+=========================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ff9ec4,#ffd6e7);
+    overflow:hidden;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Main Card */
+.container{
+    text-align:center;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    position:relative;
+    width:90%;
+    max-width:500px;
+}
+
+h1{
+    color:#ff2d75;
+    margin-bottom:30px;
+    font-size:2rem;
+}
+
+/* Buttons */
+button{
+    padding:15px 30px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    font-size:18px;
+    transition:.3s;
+}
+
+#yesBtn{
+    background:#ff4d88;
+    color:white;
+    margin-right:20px;
+}
+
+#yesBtn:hover{
+    transform:scale(1.08);
+}
+
+#noBtn{
+    background:#555;
+    color:white;
+    position:fixed;
+}
+
+/* Success Message */
+#message{
+    display:none;
+    margin-top:25px;
+    font-size:24px;
+    color:#ff2d75;
+    font-weight:bold;
+}
+
+/* Floating Hearts */
+.heart{
+    position:fixed;
+    font-size:24px;
+    animation:float 4s linear forwards;
+    pointer-events:none;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0) scale(1);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-400px) scale(2);
+        opacity:0;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Main Content -->
+<div class="container">
+
+    <h1>Will you be my girlfriend? ❤️</h1>
+
+    <!-- Yes Button -->
+    <button id="yesBtn">
+        Yes 💖
+    </button>
+
+</div>
+
+<!-- No Button (outside container so it can move anywhere) -->
+<button id="noBtn">
+    No 😒
+</button>
+
+<script>
+
+/* ===========================
+   Position the No button
+=========================== */
+
+const noBtn = document.getElementById("noBtn");
+
+// Initial position
+noBtn.style.left = "60%";
+noBtn.style.top = "60%";
+
+// Function to move button randomly
+function moveButton(){
+
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const randomX = Math.random()*maxX;
+    const randomY = Math.random()*maxY;
+
+    noBtn.style.left = randomX+"px";
+    noBtn.style.top = randomY+"px";
+}
+
+// Move whenever hovered
+noBtn.addEventListener("mouseover",moveButton);
+
+// Also move on touch (mobile)
+noBtn.addEventListener("touchstart",function(e){
+    e.preventDefault();
+    moveButton();
+});
+
+// If somehow clicked, move again
+noBtn.addEventListener("click",function(e){
+    e.preventDefault();
+    moveButton();
+});
+
+
+/* ===========================
+   Yes Button
+=========================== */
+
+const yesBtn=document.getElementById("yesBtn");
+
+yesBtn.addEventListener("click",function(){
+
+    // Prevent duplicate messages
+    if(document.getElementById("message")) return;
+
+    const msg=document.createElement("div");
+    msg.id="message";
+    msg.innerHTML="Yay!! ❤️ You made my day! 💕";
+    msg.style.display="block";
+
+    document.querySelector(".container").appendChild(msg);
+
+    createHearts();
+});
+
+
+/* ===========================
+   Heart Animation
+=========================== */
+
+function createHearts(){
+
+    for(let i=0;i<40;i++){
+
+        setTimeout(()=>{
+
+            const heart=document.createElement("div");
+
+            heart.className="heart";
+            heart.innerHTML="❤️";
+
+            heart.style.left=Math.random()*window.innerWidth+"px";
+            heart.style.top=(window.innerHeight-50)+"px";
+
+            document.body.appendChild(heart);
+
+            setTimeout(()=>{
+                heart.remove();
+            },4000);
+
+        },i*100);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
